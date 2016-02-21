@@ -4,7 +4,7 @@ import pyupm_servo as s
 import pyupm_i2clcd as l
 from random import randint
 from listCompiler import makeList
-
+import twitter
 from math import ceil
 
 # Initialize Jhd1313m1 at 0x3E (LCD_ADDRESS) and 0x62 (RGB_ADDRESS)
@@ -33,14 +33,20 @@ servo = s.ES08A(5)
 lcd = l.Jhd1313m1(0, 0x3E, 0x62)
 lcd.setCursor(0, 0)
 lcd.write("Initializing...")
+api = twitter.Api(consumer_key='oXjVRo8KcyBHEcrR76rzdiwf3', consumer_secret='tHRflbSX73giyVkkYZJ3H2h09rVUrnyllRbFOJ8qMibNGAjanS',
+    access_token_key='701115311790149634-fiW66eYxY9xv46kvVpgTP7BcHTmF6D7', access_token_secret='UhgInppxQszb795xsiy6reB8nNfjjpwHvLWmPitvmfbqj')
 sleep(1)
 
 
 def turnOn():
         servo.setAngle(100)
         sleep(2)
-        scrollRand()
-    #displayLCD(myLCD, cQuote)
+        fact = scrollRand()
+    tweet(fact)
+
+def tweet(message):
+    api.PostUpdate('Espresso started. ' + message) {}
+
 def scrollRand():
         fact = str(factlist[randint(0, 15)])
     print fact
@@ -55,7 +61,7 @@ def scrollRand():
     sleep(2)
     lcd.setCursor(0, 0)
     lcd.clear()
-
+    return fact
 
 changed = False
 while True:
@@ -71,5 +77,3 @@ while True:
     else:
         print "coffee request still active"
     sleep(2)
-
-
